@@ -1,0 +1,6 @@
+{
+  "name": "Grocery List",
+  "description": "Mobile-responsive, high-contrast multi-lingual shopper web interface with local storage, receipt attachment, and WhatsApp sharing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

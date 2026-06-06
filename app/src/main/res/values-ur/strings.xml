@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">گراسری فہرست</string>
+    <string name="app_header">گراسری فہرست</string>
+    <string name="label_notepad_title">امی کا کچن نوٹ پیڈ</string>
+    <string name="label_default_shopper">%1$s: ڈیفالٹ خریدار</string>
+    
+    <string name="btn_start_shopping">خریداری شروع کریں</string>
+    <string name="start_shopping_subtitle">امی کی نئی کچن لسٹ تیار کریں</string>
+    
+    <string name="btn_repeat_last">پچھلی فہرست دہرائیں</string>
+    <string name="repeat_last_subtitle">پچھلی گراسری لسٹ دہرائیں</string>
+    
+    <string name="missed_last_title">رہ جانے والا سودا</string>
+    <string name="missed_last_subtitle">جو سامان پچھلی بار نہیں مل پایا</string>
+    
+    <string name="btn_add_shopper">خریدار پروفائل شامل کریں</string>
+    <string name="sub_add_shopper">پوتے، مددگار یا نئی خریدار شامل کریں</string>
+    
+    <string name="label_import_section">پرانا بل امپورٹ کریں</string>
+    <string name="desc_import_section">واٹس ایپ پر خریدار سے موصول ہونے والا میسج یہاں پیسٹ کریں تاکہ قیمتیں، دستیابی اور رسیدیں خود بخود سنک ہو جائیں۔</string>
+    <string name="input_hint_import">خریدار کا واٹس ایپ پیغام یہاں پیسٹ کریں...</string>
+    <string name="btn_import_proceed">پیسٹ کریں</string>
+    
+    <string name="dialog_title_add_shopper">نیا خریدار پروفائل شامل کریں</string>
+    <string name="dialog_label_name">نام (جیسے احمد، امی)</string>
+    <string name="dialog_label_relation">رشتہ (جیسے بیٹا، بہن)</string>
+    <string name="dialog_label_phone">واٹس ایپ فون نمبر</string>
+    <string name="dialog_btn_cancel">منسوخ کریں</string>
+    <string name="dialog_btn_save">محفوظ کریں</string>
+    <string name="theme_dark">ڈارک 🌙</string>
+    <string name="theme_light">لائٹ ☀️</string>
+</resources>

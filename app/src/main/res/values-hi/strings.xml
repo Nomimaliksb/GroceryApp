@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">किराना सूची</string>
+    <string name="app_header">किराना सूची</string>
+    <string name="label_notepad_title">माँ का रसोई नोटपैड</string>
+    <string name="label_default_shopper">%1$s: डिफ़ॉल्ट खरीदार</string>
+    
+    <string name="btn_start_shopping">खरीदारी शुरू करें</string>
+    <string name="start_shopping_subtitle">माँ के लिए नई रसोई सूची बनाएं</string>
+    
+    <string name="btn_repeat_last">पिछली सूची दोहराएं</string>
+    <string name="repeat_last_subtitle">पिछली किराना सूची दोहराएं</string>
+    
+    <string name="missed_last_title">छूटे हुए सामान की सूची</string>
+    <string name="missed_last_subtitle">सामान जो पिछली बार नहीं मिला</string>
+    
+    <string name="btn_add_shopper">खरीदार प्रोफ़ाइल जोड़ें</string>
+    <string name="sub_add_shopper">पोता, सहायक या नया खरीदार जोड़ें</string>
+    
+    <string name="label_import_section">पुराना बिल आयात करें</string>
+    <string name="desc_import_section">मूल्य, उपलब्धता और रसीद सिंक करने के लिए खरीदार का व्हाट्सएप संदेश यहाँ पेस्ट करें।</string>
+    <string name="input_hint_import">खरीदार का व्हाट्सएप संदेश यहाँ पेस्ट करें...</string>
+    <string name="btn_import_proceed">पेस्ट करें</string>
+    
+    <string name="dialog_title_add_shopper">नया खरीदार प्रोफ़ाइल जोड़ें</string>
+    <string name="dialog_label_name">नाम (जैसे अहमद, माँ)</string>
+    <string name="dialog_label_relation">संबंध (जैसे बेटा, बहन)</string>
+    <string name="dialog_label_phone">व्हाट्सएप फोन नंबर</string>
+    <string name="dialog_btn_cancel">रद्द करें</string>
+    <string name="dialog_btn_save">सहेजें</string>
+    <string name="theme_dark">डार्क 🌙</string>
+    <string name="theme_light">लाइट ☀️</string>
+</resources>

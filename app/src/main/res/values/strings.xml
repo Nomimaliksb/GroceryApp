@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Grocery List</string>
+    <string name="app_header">Grocery List</string>
+    <string name="label_notepad_title">Mom\'s Kitchen Notepad</string>
+    <string name="label_default_shopper">Default Shopper: %1$s</string>
+    
+    <string name="btn_start_shopping">Start Shopping</string>
+    <string name="start_shopping_subtitle">Create a new kitchen list for Mom</string>
+    
+    <string name="btn_repeat_last">Repeat Last List</string>
+    <string name="repeat_last_subtitle">Repeat previous grocery list</string>
+    
+    <string name="missed_last_title">List Missed Items</string>
+    <string name="missed_last_subtitle">Items not found in the last trip</string>
+    
+    <string name="btn_add_shopper">Add Shopper Profile</string>
+    <string name="sub_add_shopper">Add grandson, helper, or new shopper</string>
+    
+    <string name="label_import_section">Import Old Bill</string>
+    <string name="desc_import_section">Mom, paste the raw completion message received from the shopper on WhatsApp here to automatically sync prices, availability and receipt images.</string>
+    <string name="input_hint_import">Paste shopper WhatsApp text here...</string>
+    <string name="btn_import_proceed">PASTE</string>
+    
+    <string name="dialog_title_add_shopper">Add New Shopper Profile</string>
+    <string name="dialog_label_name">Name (e.g. Ahmed, Mom)</string>
+    <string name="dialog_label_relation">Relationship (e.g. Son, Sister)</string>
+    <string name="dialog_label_phone">WhatsApp Phone Number</string>
+    <string name="dialog_btn_cancel">Cancel</string>
+    <string name="dialog_btn_save">Save</string>
+    <string name="theme_dark">DARK 🌙</string>
+    <string name="theme_light">LIGHT ☀️</string>
+</resources>

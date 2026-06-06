@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">سودا سلف دی لسٹ</string>
+    <string name="app_header">سودا سلف دی لسٹ</string>
+    <string name="label_notepad_title">اماں دا کچن نوٹ پیڈ</string>
+    <string name="label_default_shopper">%1$s: ڈیفالٹ گھننڑ آلا</string>
+    
+    <string name="btn_start_shopping">سودا شروع کرو</string>
+    <string name="start_shopping_subtitle">اماں واسطے نویں کچن دی لسٹ تیار کرو</string>
+    
+    <string name="btn_repeat_last">پچھلی لسٹ ولا لاؤ</string>
+    <string name="repeat_last_subtitle">پچھلی گراسری لسٹ دہریاؤ</string>
+    
+    <string name="missed_last_title">رہ گیا سودا لسٹ کرو</string>
+    <string name="missed_last_subtitle">او سودا سلف جو پچھلی واری کینی ملیا</string>
+    
+    <string name="btn_add_shopper">خریدار دا ریکارڈ شامل کرو</string>
+    <string name="sub_add_shopper">پوتے، مددگار یا نویں خریدار کوں رلاؤ</string>
+    
+    <string name="label_import_section">پرانا بل امپورٹ کرو</string>
+    <string name="desc_import_section">اماں، واٹس ایپ تے جو سودا سلف دا میسج ملے او ایتھاں پیسٹ کرو تاں جو ریٹ، سائز تے چیزاں دا پتہ خود بخود لگ ونجے۔</string>
+    <string name="input_hint_import">خریدار دا میسج ایتھاں پیسٹ کرو...</string>
+    <string name="btn_import_proceed">پیسٹ کرو</string>
+    
+    <string name="dialog_title_add_shopper">نواں خریدار شامل کرو</string>
+    <string name="dialog_label_name">ناں (جیویں احمد، اماں)</string>
+    <string name="dialog_label_relation">رشتہ (جیویں پتر، بھیݨ)</string>
+    <string name="dialog_label_phone">واٹس ایپ فون نمبر</string>
+    <string name="dialog_btn_cancel">منسوخ کرو</string>
+    <string name="dialog_btn_save">محفوظ کرو</string>
+    <string name="theme_dark">کالا 🌙</string>
+    <string name="theme_light">چٹا ☀️</string>
+</resources>

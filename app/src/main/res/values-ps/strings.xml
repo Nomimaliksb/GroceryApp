@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">د سودا لېست</string>
+    <string name="app_header">د سودا لېست</string>
+    <string name="label_notepad_title">د مور جانې د پخلنځي نوټ کاپی</string>
+    <string name="label_default_shopper">%1$s: ټاکل شوی اخیستونکی</string>
+    
+    <string name="btn_start_shopping">سودا شروع کول</string>
+    <string name="start_shopping_subtitle">د مور جانې لپاره د پخلنځي نوی لېست چمتو کړئ</string>
+    
+    <string name="btn_repeat_last">پخوانی لېست تکرارول</string>
+    <string name="repeat_last_subtitle">د تېر ځل د سودا لېست تکرار کړئ</string>
+    
+    <string name="missed_last_title">پاتې شوې سودا لېست کول</string>
+    <string name="missed_last_subtitle">هغه سودا چې تېر ځল پاتې شوې وه او نده اخیستل شوې</string>
+    
+    <string name="btn_add_shopper">د اخیستونکي پروفایل زیاتول</string>
+    <string name="sub_add_shopper">لمسی، مرستندوی یا نوی اخیستونکی شامل کړئ</string>
+    
+    <string name="label_import_section">پخوانی بل واردول</string>
+    <string name="desc_import_section">مورې، د رانیوونکي لخوا په واټساپ راغلی نهایی پیغام دلته کاپي کړئ ترڅو نرخونه او رسیدونه په اتومات ډول ثبت شي.</string>
+    <string name="input_hint_import">د واټساپ پیغام دلته ننباسئ...</string>
+    <string name="btn_import_proceed">کاپي کول</string>
+    
+    <string name="dialog_title_add_shopper">د نوي اخیستونکي پروفایل زیات کړئ</string>
+    <string name="dialog_label_name">نوم (د بېلګې په توګه احمد، مور)</string>
+    <string name="dialog_label_relation">اړیکه (د بېلګې په توګه زوی، خور)</string>
+    <string name="dialog_label_phone">د واټساپ شمېره</string>
+    <string name="dialog_btn_cancel">لغوه کول</string>
+    <string name="dialog_btn_save">خوندي کول</string>
+    <string name="theme_dark">تیاره 🌙</string>
+    <string name="theme_light">روښانه ☀️</string>
+</resources>

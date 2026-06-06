@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Grocery List - Shopper Page</title>
+    <style>
+        /* CSS Reset and Force Contrast Rules */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Oxygen, Ubuntu, Cantarell, Arial, sans-serif;
+            font-weight: bold !important; /* Force globally bold */
+        }
+
+        /* Variables for pure high contrast modes and High Density Design elements */
+        :root {
+            --bg-color: #FFFFFF;
+            --text-color: #000000;
+            --accent-border: 4px solid #2E7D32;
+            --input-border: 3px solid #2E7D32;
+            --btn-bg: #FFFFFF;
+            --btn-text: #000000;
+            --btn-hover: #E8F5E9;
+            --accent-bg: #F1F8F5;
+            --header-bg: #2E7D32;
+            --thead-text: #FFFFFF;
+            --btn-danger-bg: #D32F2F;
+            --btn-primary-bg: #2E7D32;
+            --btn-primary-text: #FFFFFF;
+            --btn-complete-bg: #2E7D32; /* Emerald/Green matching specs */
+            --btn-complete-text: #FFFFFF;
+            --btn-complete-shadow: #000000;
+            --disabled-bg: #E0E0E0;
+            --font-size-base: 18px; /* Force minimum 18px base text */
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --text-color: #FFFFFF;
+            --accent-border: 4px solid #FFFFFF;
+            --input-border: 3px solid #FFFFFF;
+            --btn-bg: #000000;
+            --btn-text: #FFFFFF;
+            --btn-hover: #1E293B;
+            --accent-bg: #0F172A;
+            --header-bg: #FFFFFF;
+            --thead-text: #000000;
+            --btn-danger-bg: #F87171;
+            --btn-primary-bg: #FFFFFF;
+            --btn-primary-text: #000000;
+            --btn-complete-bg: #15803D;
+            --btn-complete-text: #FFFFFF;
+            --btn-complete-shadow: #FFFFFF;
+            --disabled-bg: #1E293B;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: var(--font-size-base);
+            line-height: 1.4;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.15s ease, color 0.15s ease;
+            user-select: none;
+        }
+
+        /* Elder-accessible Header & Controls Layout */
+        header {
+            border-bottom: var(--accent-border);
+            padding-bottom: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            position: relative;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2.22rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            flex-grow: 1;
+        }
+
+        /* Float/Controls spacing */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .lang-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-grow: 1;
+            min-width: 250px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+
+        /* Large visible accessible input targets */
+        select, input[type="text"], input[type="number"], textarea {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: var(--input-border);
+            padding: 12px 16px;
+            font-size: 1.1rem;
+            border-radius: 12px;
+            width: 100%;
+            outline: none;
+            transition: all 0.15s ease;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            box-shadow: 0 0 0 4px var(--text-color);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 18px;
+            padding-right: 48px;
+        }
+
+        body[dir="rtl"] select {
+            background-position: left 16px center;
+            padding-left: 48px;
+            padding-right: 16px;
+        }
+
+        /* High-Density Squared Floating Theme Toggle Button */
+        .theme-toggle-btn {
+            background-color: var(--btn-primary-bg);
+            color: var(--btn-primary-text);
+            border: var(--input-border);
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 1.6rem;
+            transition: transform 0.1s ease;
+            user-select: none;
+        }
+
+        .theme-toggle-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Table & Row Grid Container for mobile responsiveness */
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            border: var(--accent-border);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            background-color: var(--accent-bg);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 900px; /* Force minimum readable width for large text components */
+        }
+
+        body[dir="rtl"] table {
+            text-align: right;
+        }
+
+        th, td {
+            padding: 14px;
+            border: var(--input-border);
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: var(--header-bg);
+            color: var(--thead-text);
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Table cell inputs inside table */
+        table input[type="text"], table input[type="number"], table textarea {
+            width: 100%;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px solid var(--text-color);
+        }
+
+        /* Custom Radio Button styling for maximum elderly view click targets */
+        .availability-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            min-width: 160px;
+        }
+
+        .radio-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-left: 36px;
+            cursor: pointer;
+            user-select: none;
+            font-size: 1.05rem;
+        }
+
+        body[dir="rtl"] .radio-container {
+            padding-left: 0;
+            padding-right: 36px;
+        }
+
+        /* Hide browser default radio buttons check */
+        .radio-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Custom radio outer circle indicator */
+        .checkmark {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 26px;
+            width: 26px;
+            background-color: var(--bg-color);
+            border: 3px solid var(--text-color);
+            border-radius: 50%;
+        }
+
+        body[dir="rtl"] .checkmark {
+            left: auto;
+            right: 0;
+        }
+
+        /* When radio value selected */
+        .radio-container input:checked ~ .checkmark {
+            background-color: var(--text-color);
+        }
+
+        /* The inner select dot spacer */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            top: 7px;
+            left: 7px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--bg-color);
+        }
+
+        .radio-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Price fields disabled state styling */
+        .price-field-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 130px;
+        }
+
+        .price-field-container input:disabled {
+            background-color: var(--disabled-bg);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .price-currency {
+            font-size: 1.1rem;
+            white-space: nowrap;
+        }
+
+        /* Auto-calculated bill UI panel styling - High Contrast bottom block */
+        .bill-pane {
+            background-color: var(--header-bg);
+            color: var(--thead-text);
+            border: var(--accent-border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .bill-title {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .bill-amount {
+            font-size: 2.5rem;
+            font-weight: 900 !important;
+            text-decoration: none;
+        }
+
+        /* Attached preview panel feedback */
+        .gallery-pane {
+            background-color: var(--bg-color);
+            border: var(--input-border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: none;
+        }
+
+        .gallery-pane.visible {
+            display: block;
+        }
+
+        .gallery-title {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .receipt-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .receipt-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: var(--input-border);
+            border-radius: 8px;
+        }
+
+        /* Bottom Control Button Bar Grid Layout matching High Density design */
+        .footer-actions {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .action-btn {
+            width: 100%;
+            height: 64px;
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            border: var(--accent-border);
+            border-radius: 16px;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+            user-select: none;
+            transition: all 0.1s ease;
+            position: relative;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Custom color assignments for primary/secondary buttons */
+        .btn-save {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            box-shadow: 0 4px 0 var(--text-color);
+        }
+
+        .btn-save:active {
+            top: 4px;
+            box-shadow: 0 0 0 var(--text-color);
+        }
+
+        .btn-attach {
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            box-shadow: 0 4px 0 var(--text-color);
+        }
+
+        .btn-attach:active {
+            top: 4px;
+            box-shadow: 0 0 0 var(--text-color);
+        }
+
+        .file-input-hidden {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn-complete {
+            grid-column: span 2;
+            background-color: var(--btn-complete-bg);
+            color: var(--btn-complete-text);
+            font-size: 1.25rem;
+            font-weight: 900 !important;
+            box-shadow: 0 4px 0 var(--btn-complete-shadow);
+        }
+
+        .btn-complete:active {
+            top: 4px;
+            box-shadow: 0 0 0 var(--btn-complete-shadow);
+        }
+
+        /* Monetization Space Baseline */
+        .ad-space {
+            height: 90px;
+            border: 3px dashed var(--text-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: auto;
+            margin-bottom: 8px;
+            text-align: center;
+            padding: 8px;
+            background-color: var(--accent-bg);
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .ad-text {
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        /* Notifications / Banner Alerts popup logic */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 16px 32px;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            font-size: 1.2rem;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s ease;
+            text-align: center;
+            width: max-content;
+            max-width: 90%;
+            border: 3px solid var(--bg-color);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Desktop responsiveness rules */
+        @media (min-width: 768px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+            .controls {
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body data-theme="light">
+
+    <!-- Screen Title & floating toggles layout content -->
+    <header>
+        <div class="header-top">
+            <div style="display: flex; flex-direction: column;">
+                <h1 id="lbl-app-title" style="margin: 0; line-height: 1;">Grocery List</h1>
+                <span id="lbl-app-subtitle" style="font-size: 0.75rem; opacity: 0.7; letter-spacing: 0.15em; text-transform: uppercase; margin-top: 4px;">SHOPPER MODE</span>
+            </div>
+            <button class="theme-toggle-btn" id="theme-toggler" aria-label="Toggle high contrast screen elements" onclick="toggleTheme()">☀️</button>
+        </div>
+        <div class="controls">
+            <div class="lang-control">
+                <label for="language-select" id="lbl-lang-select">Language:</label>
+                <select id="language-select" onchange="switchLanguage(this.value)">
+                    <option value="en" selected>English</option>
+                    <option value="ur">اردو (Urdu)</option>
+                    <option value="hi">हिन्दी (Hindi)</option>
+                    <option value="bn">বাংলা (Bengali)</option>
+                    <option value="ps">پښتو (Pashto)</option>
+                    <option value="sd">سنڌي (Sindhi)</option>
+                    <option value="pa_gur">ਪੰਜਾਬੀ (Punjabi - Gurmukhi)</option>
+                    <option value="pa_shah">پنجابي (Punjabi - Shahmukhi)</option>
+                    <option value="sk">سرائیکی (Saraiki)</option>
+                    <option value="bal">بلوچی (Balochi)</option>
+                    <option value="ks">کٲشُر (Kashmiri)</option>
+                    <option value="fa">دری (Dari/Persian)</option>
+                    <option value="uz">اۉزبیک (Uzbek)</option>
+                    <option value="mr">मराठी (Marathi)</option>
+                    <option value="te">తెలుగు (Telugu)</option>
+                    <option value="ta">தமிழ் (Tamil)</option>
+                    <option value="gu">ગુજરાતી (Gujarati)</option>
+                    <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                    <option value="ml">മലയാളം (Malayalam)</option>
+                    <option value="or">ଓଡ଼ିଆ (Odia)</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <!-- Grocery input table -->
+    <main>
+        <div class="table-scroll">
+            <table>
+                <thead>
+                    <tr>
+                        <th id="th-item-name">Item Name</th>
+                        <th id="th-qty" style="width: 10%;">Qty</th>
+                        <th id="th-req-brand">Requested Brand</th>
+                        <th id="th-purch-brand">Purchased Brand</th>
+                        <th id="th-availability">Availability</th>
+                        <th id="th-price">Price</th>
+                        <th id="th-notes">Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="shopping-list-rows">
+                    <!-- Loaded dynamically via JS -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Calculated total bill segment components -->
+        <div class="bill-pane">
+            <div class="bill-title" id="lbl-total-bill">Total Bill</div>
+            <div class="bill-amount"><span id="computed-currency">Rs.</span> <span id="bill-grand-total">0</span></div>
+        </div>
+
+        <!-- Hidden dynamic uploaded receipt image layouts -->
+        <div id="receipt-gallery" class="gallery-pane">
+            <div class="gallery-title" id="lbl-receipt-preview">Attached Receipts</div>
+            <div class="receipt-grid" id="thumbnail-preview-container"></div>
+        </div>
+
+        <!-- Accessibility-sized control buttons -->
+        <div class="footer-actions">
+            <!-- 1. Save Local Button -->
+            <button class="action-btn btn-save" onclick="saveListToLocal()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                <span id="lbl-btn-save">Save Shopping List</span>
+            </button>
+
+            <!-- 2. Attach Receipt Upload Inputs -->
+            <button class="action-btn btn-attach" style="overflow: hidden;">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span id="lbl-btn-receipt">Attach Receipt</span>
+                <input class="file-input-hidden" type="file" id="receipt-upload" multiple accept="image/*" onchange="handleReceiptUpload(event)">
+            </button>
+
+            <!-- 3. WhatsApp Complete Sharing Button -->
+            <button class="action-btn btn-complete" onclick="completeShoppingAndSend()">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8.684 10.742l3.414 1.707a2 2 0 11-.707 1.414l-3.414-1.707a2 2 0 110-2.828zm0 5.656a2 2 0 11-1.414-1.414l3.414-1.707a2 2 0 111.414 1.414l-3.414 1.707z"></path></svg>
+                <span id="lbl-btn-complete">Complete & Send to Mom</span>
+            </button>
+        </div>
+    </main>
+
+    <!-- Monetization Base Area space banner -->
+    <div class="ad-space" id="ad-panel-holder">
+        <span class="ad-text" id="lbl-ad-space">ADVERTISEMENT_SPACE_HOLDER</span>
+    </div>
+
+    <!-- Alert toast feedback -->
+    <div class="toast" id="toast-message">Grocery List Saved!</div>
+
+    <script>
+        // High Contrast Multi-Locale Language Bundles Object Setup
+        const locales = {
+            en: {
+                dir: "ltr",
+                app_title: "Grocery List",
+                lang_select: "Language:",
+                item_name: "Item Name",
+                qty: "Qty",
+                req_brand: "Req. Brand",
+                purch_brand: "Purchased Brand",
+                availability: "Availability",
+                price: "Price",
+                notes: "Notes",
+                btn_save: "Save Shopping List",
+                btn_receipt: "Attach Receipt",
+                btn_complete: "Complete & Send to Mom",
+                available: "Available",
+                not_available: "Not Available",
+                total_bill: "Total Bill",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "Rs.",
+                toast_saved: "List Saved Locally!",
+                toast_attached: "%n Receipts Attached Successfully!",
+                receipt_title: "Attached Receipts",
+                dummy_items: [
+                    { name: "Cooking Oil (5L)", qty: "1", brand: "Dalda" },
+                    { name: "Basmati Rice (5kg)", qty: "1", brand: "Guard" },
+                    { name: "Sugar (2kg)", qty: "1", brand: "Local" },
+                    { name: "Tea Blend (950g)", qty: "1", brand: "Tapal" },
+                    { name: "Fresh Milk (1L)", qty: "4", brand: "MilkPak" }
+                ]
+            },
+            ur: {
+                dir: "rtl",
+                app_title: "گراسری اور راشن کی فہرست",
+                lang_select: "زبان:",
+                item_name: "سامان کا نام",
+                qty: "تعداد",
+                req_brand: "مطلوبہ برانڈ",
+                purch_brand: "خریدا گیا برانڈ",
+                availability: "دستیابی",
+                price: "قیمت",
+                notes: "تفصیلات",
+                btn_save: "فہرست محفوظ کریں",
+                btn_receipt: "رسید منسلک کریں",
+                btn_complete: "مکمل اور امی کو بھیجیں",
+                available: "دستیاب",
+                not_available: "میسر نہیں",
+                total_bill: "کل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "روپے",
+                toast_saved: "فہرست محفوظ ہو گئی ہے!",
+                toast_attached: "%n رسیدیں کامیابی سے منسلک ہو گئیں!",
+                receipt_title: "منسلک رسیدیں",
+                dummy_items: [
+                    { name: "کوکنگ آئل (5 لیٹر)", qty: "1", brand: "ڈالڈا" },
+                    { name: "باسمتی چاول (5 کلو)", qty: "1", brand: "گارڈ" },
+                    { name: "چینی (2 کلو)", qty: "1", brand: "لوکل" },
+                    { name: "چائے کی پتی (950 گرام)", qty: "1", brand: "ٹاپل" },
+                    { name: "تازہ دودھ (1 لیٹر)", qty: "4", brand: "ملک پیک" }
+                ]
+            },
+            hi: {
+                dir: "ltr",
+                app_title: "किराना सूची",
+                lang_select: "भाषा:",
+                item_name: "वस्तु का नाम",
+                qty: "मात्रा",
+                req_brand: "वांछित ब्रांड",
+                purch_brand: "खरीदा गया ब्रांड",
+                availability: "उपलब्धता",
+                price: "कीमत",
+                notes: "विवरण",
+                btn_save: "सूची सुरक्षित करें",
+                btn_receipt: "रसीद जोड़ें",
+                btn_complete: "पूरी करें और माँ को भेजें",
+                available: "उपलब्ध",
+                not_available: "अनुपलब्ध",
+                total_bill: "कुल बिल",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "रु.",
+                toast_saved: "सूची सुरक्षित की गई!",
+                toast_attached: "%n रसीदें जोड़ी गईं!",
+                receipt_title: "संलग्न रसीदें",
+                dummy_items: [
+                    { name: "खाने का तेल (5L)", qty: "1", brand: "फॉर्च्यून" },
+                    { name: "बासमती चावल (5kg)", qty: "1", brand: "इंडिया गेट" },
+                    { name: "चीनी (2kg)", qty: "1", brand: "स्थानीय" },
+                    { name: "चाय पत्ती (950g)", qty: "1", brand: "टाटा" },
+                    { name: "दूध (1L)", qty: "4", brand: "अमुल" }
+                ]
+            },
+            bn: {
+                dir: "ltr",
+                app_title: "বাজারের তালিকা",
+                lang_select: "ভাষা:",
+                item_name: "দ্রব্যের নাম",
+                qty: "পরিমাণ",
+                req_brand: "অনুরোধকৃত ব্র্যান্ড",
+                purch_brand: "ক্রয়কৃত ব্র্যান্ড",
+                availability: "সহজলভ্যতা",
+                price: "মূল্য",
+                notes: "মন্তব্য",
+                btn_save: "তালিকা সংরক্ষণ করুন",
+                btn_receipt: "রসিদ সংযুক্ত করুন",
+                btn_complete: "সম্পন্ন ও মাকে পাঠান",
+                available: "আছে",
+                not_available: "নেই",
+                total_bill: "মোট বিল",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "টাকা",
+                toast_saved: "তালিকা সংরক্ষিত হয়েছে!",
+                toast_attached: "%n টি রসিদ যুক্ত করা হয়েছে!",
+                receipt_title: "সংযুক্ত রসিদসমূহ",
+                dummy_items: [
+                    { name: "ভোজ্য তেল (৫ লিটার)", qty: "১", brand: "রূপচাঁদা" },
+                    { name: "বাসমতি চাল (৫ কেজি)", qty: "১", brand: "প্রাণ" },
+                    { name: " চিনি (২ কেজি)", qty: "১", brand: "দেশি" },
+                    { name: "চা পাতা (৯৫০ গ্রাম)", qty: "১", brand: "ইস্পাহানি" },
+                    { name: "তরল দুধ (১ লিটার)", qty: "৪", brand: "আড়ং" }
+                ]
+            },
+            ps: {
+                dir: "rtl",
+                app_title: "د سودا لېست",
+                lang_select: "ژبه:",
+                item_name: "د توکي نوم",
+                qty: "اندازه",
+                req_brand: "غوښتل شوی برانډ",
+                purch_brand: "اخیستل شوی برانډ",
+                availability: "بشپړتیا",
+                price: "بیا (نرخ)",
+                notes: "یادښتونه",
+                btn_save: "لېست خوندي کول",
+                btn_receipt: "رسید ضمیمه کول",
+                btn_complete: "بشپړول او مور ته لیږل",
+                available: "شتون لري",
+                not_available: "نشته",
+                total_bill: "ټول بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "افغانۍ",
+                toast_saved: "راشن لېست خوندي شو!",
+                toast_attached: "%n رسیدونه ضمیمه شول!",
+                receipt_title: "خوندي شوي رسیدونه",
+                dummy_items: [
+                    { name: "غوړي (5L)", qty: "1", brand: "سپین غر" },
+                    { name: "شالي وریجې (5kg)", qty: "1", brand: "وطني" },
+                    { name: "شکر (2kg)", qty: "1", brand: "وطني" },
+                    { name: "چای (950g)", qty: "1", brand: "الکوزی" },
+                    { name: "تازه شیدې (1L)", qty: "4", brand: "پاک" }
+                ]
+            },
+            sd: {
+                dir: "rtl",
+                app_title: "سودي جي فھرست",
+                lang_select: "ٻولي:",
+                item_name: "شئي جو نالو",
+                qty: "انداز",
+                req_brand: "گهريل برانڊ",
+                purch_brand: "خريد ڪيل برانڊ",
+                availability: "موجودگي",
+                price: "قيمت",
+                notes: "نوٽس",
+                btn_save: "فهرست محفوظ ڪريو",
+                btn_receipt: "رسيد شامل ڪريو",
+                btn_complete: "مڪمل ڪري امڙ کي موڪليو",
+                available: "موجود آھي",
+                not_available: "موجود ناھي",
+                total_bill: "ڪل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "روپيا",
+                toast_saved: "فهرست محفوظ ٿي وئي!",
+                toast_attached: "%n رسيدون شامل ڪيون ويون!",
+                receipt_title: "شامل ڪيل رسيدون",
+                dummy_items: [
+                    { name: "تيل (5L)", qty: "1", brand: "ڊالڊا" },
+                    { name: "چانور (5kg)", qty: "1", brand: "ڪرنل" },
+                    { name: "کنڊ (2kg)", qty: "1", brand: "مقامي" },
+                    { name: "چانهه (950g)", qty: "1", brand: "ٽاپل" },
+                    { name: "کير (1L)", qty: "4", brand: "ملڪ پاڪ" }
+                ]
+            },
+            pa_gur: {
+                dir: "ltr",
+                app_title: "ਕਰਿਆਨੇ ਦੀ ਸੂਚੀ",
+                lang_select: "ਭਾਸ਼ਾ:",
+                item_name: "ਸਮਾਨ ਦਾ ਨਾਮ",
+                qty: "ਮਾਤਰਾ",
+                req_brand: "ਮੰਗਿਆ ਗਿਆ ਬ੍ਰਾਂਡ",
+                purch_brand: "ਖਰੀਦਿਆ ਗਿਆ ਬ੍ਰਾਂਡ",
+                availability: "ਉਪਲਬਧਤਾ",
+                price: "ਕੀਮਤ",
+                notes: "ਨੋਟ",
+                btn_save: "ਸੂਚੀ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+                btn_receipt: "ਰਸੀਦ ਜੋੜੋ",
+                btn_complete: "ਪੂਰੀ ਕਰੋ ਤੇ ਮਾਂ ਨੂੰ ਭੇਜੋ",
+                available: "ਉਪਲਬਧ",
+                not_available: "ਨਹੀਂ ਮਿਲਿਆ",
+                total_bill: "ਕੁੱਲ ਬਿੱਲ",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "ਰੁਪਏ",
+                toast_saved: "ਸੂਚੀ ਸੁਰੱਖਿਅਤ ਕੀਤੀ ਗਈ!",
+                toast_attached: "%n ਰਸੀਦਾਂ ਜੋੜੀਆਂ ਗਈਆਂ!",
+                receipt_title: "ਸੰਲਗਨ ਰਸੀਦਾਂ",
+                dummy_items: [
+                    { name: "ਤੇਲ (5L)", qty: "1", brand: "ਫਾਰਚੂਨ" },
+                    { name: "ਚਾਵਲ (5kg)", qty: "1", brand: "ਇੰਡੀਆ ਗੇਟ" },
+                    { name: "ਖੰਡ (2kg)", qty: "1", brand: "ਘਰੇਲੂ" },
+                    { name: "ਚਾਹ ਪੱਤੀ (950g)", qty: "1", brand: "ਟਾਟਾ" },
+                    { name: "ਦੁੱਧ (1L)", qty: "4", brand: "ਵੇਰਕਾ" }
+                ]
+            },
+            pa_shah: {
+                dir: "rtl",
+                app_title: "ਸੌਦੇ ਦੀ ਸੂਚੀ - سودے دی لسٹ",
+                lang_select: "ਬੋਲੀ - زبان:",
+                item_name: "ਚੀਜ਼ ਦਾ ਨਾਂ - چیز دا ناں",
+                qty: "ਗਿਣਤੀ - مقدار",
+                req_brand: "ਮੰਗਿਆ ਬ੍ਰਾਂਡ",
+                purch_brand: "ਖਰੀਦਿਆ ਬ੍ਰਾਂਡ",
+                availability: "ਮੌਜੂਦਗੀ - دستیابی",
+                price: "ਮੁੱਲ - قیمت",
+                notes: "ਵੇਰਵਾ - نوٹس",
+                btn_save: "ਸੂਚੀ ਬਚਾਓ - لسٹ بچاؤ",
+                btn_receipt: "ਰਸੀਦ ਲਾਓ - رسید نال لاؤ",
+                btn_complete: "ਪੂਰੀ ਕਰਕੇ ਅੰਮੀ ਨੂੰ ਘੱਲੋ",
+                available: "ਮਿਲ ਗਿਆ - دستیاب",
+                not_available: "ਨਹੀਂ ਲੱਭਾ - نہیں لبھا",
+                total_bill: "ਕੁੱਲ ਬਿੱਲ - کل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "ਰੁਪਏ - روپے",
+                toast_saved: "ਲਿਸਟ ਬਚਾ ਲਈ ਗਈ ਹੈ!",
+                toast_attached: "%n ਰਸੀਦਾਂ ਲਾ ਦਿੱਤੀਆਂ ਗਈਆਂ!",
+                receipt_title: "ਰਸੀਦਾਂ",
+                dummy_items: [
+                    { name: "ਤੇਲ (5 ਲੀਟਰ)", qty: "1", brand: "ਸੂਫੀ" },
+                    { name: "ਚੌਲ (5 ਕਿੱਲੋ)", qty: "1", brand: "ਗਾਰਡ" },
+                    { name: "ਖੰਡ (2 ਕਿੱਲੋ)", qty: "1", brand: "ਲੋਕਲ" },
+                    { name: "ਪੱਤੀ (950 ਗਰਾਮ)", qty: "1", brand: "ਟਾਪਲ" },
+                    { name: "ਦੁੱਧ (1 ਲੀਟਰ)", qty: "4", brand: "ਮਿਲਕ ਪੈਕ" }
+                ]
+            },
+            sk: {
+                dir: "rtl",
+                app_title: "سودا سلف دی لسٹ",
+                lang_select: "زبان:",
+                item_name: "چیز دا ناں",
+                qty: "تعداد",
+                req_brand: "لوڑیندا برانڈ",
+                purch_brand: "خریدا گیا برانڈ",
+                availability: "میلݨ",
+                price: "قیمت",
+                notes: "نوٹ",
+                btn_save: "لسٹ بچاؤ",
+                btn_receipt: "رسید جوڑو",
+                btn_complete: "مکمل تے امی سائیں کوں بھیجو",
+                available: "مل گئے",
+                not_available: "کائنی ملا",
+                total_bill: "کل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "روپے",
+                toast_saved: "لسٹ محفوظ تھی گئی اے!",
+                toast_attached: "%n رسیداں جوڑ ݙتیاں گئیاں!",
+                receipt_title: "رسیداں",
+                dummy_items: [
+                    { name: "گھیور یا تیل (5L)", qty: "1", brand: "ڈالڈا" },
+                    { name: "چانور (5kg)", qty: "1", brand: "باسمتی" },
+                    { name: "کھنڈ (2kg)", qty: "1", brand: "لوکل" },
+                    { name: "پتی ڈالڈا (950g)", qty: "1", brand: "ٹاپل" },
+                    { name: "کاہڑا کھیر (1L)", qty: "4", brand: "ملک پاک" }
+                ]
+            },
+            bal: {
+                dir: "rtl",
+                app_title: "سودائے فہرست",
+                lang_select: "زبان:",
+                item_name: "سامان ءِ نام",
+                qty: "کچ ءُ کساس",
+                req_brand: "لوٹ اتگیں برانڈ",
+                purch_brand: "زیر اتگیں برانڈ",
+                availability: "موجودگی",
+                price: "بیا ءُ دئے",
+                notes: "شرح",
+                btn_save: "فہرست ءِ سمبالگ",
+                btn_receipt: "رسید ءِ تچک کنگ",
+                btn_complete: "سودا خلاص ءُ مات ءِ دیم دیگ",
+                available: "است انت",
+                not_available: "نست انت",
+                total_bill: "کل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "کلدار",
+                toast_saved: "فہرست سمبالگ بوت!",
+                toast_attached: "%n رسید تچک بوت انت!",
+                receipt_title: "تچکیں رسیداں",
+                dummy_items: [
+                    { name: "تیل (5L)", qty: "1", brand: "ڈالڈا" },
+                    { name: "برنج (5kg)", qty: "1", brand: "شالامی" },
+                    { name: "شکر (2kg)", qty: "1", brand: "مقامي" },
+                    { name: "چاہ ءِ پتی (950g)", qty: "1", brand: "ٹاپل" },
+                    { name: "شیر (1L)", qty: "4", brand: "ملک پاک" }
+                ]
+            },
+            ks: {
+                dir: "rtl",
+                app_title: "سودہ لسٹ",
+                lang_select: "زبان:",
+                item_name: "چیزک ناؤ",
+                qty: "تعداد",
+                req_brand: "پیش برانڈ",
+                purch_brand: "کریو مت برانڈ",
+                availability: "دستیابی",
+                price: "قیمت",
+                notes: "تفصیل",
+                btn_save: "لسٹ تھوو محفوظ",
+                btn_receipt: "رسید تھویو نال",
+                btn_complete: "مکمل کریو تہ سوزیو موجی دار",
+                available: "دستیاب",
+                not_available: "میسر نہ",
+                total_bill: "کل بل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "رۆپیہ",
+                toast_saved: "لسٹ سپیو محفوظ!",
+                toast_attached: "%n رسید سپییہ نال!",
+                receipt_title: "نال مت رسید",
+                dummy_items: [
+                    { name: "تلیول (5L)", qty: "1", brand: "پھیرا" },
+                    { name: "بٹہ تومول (5kg)", qty: "1", brand: "باسمتی" },
+                    { name: "کھنڈ (2kg)", qty: "1", brand: "لوکل" },
+                    { name: "چائے پتی (950g)", qty: "1", brand: "ٹاپل" },
+                    { name: "دودھ (1L)", qty: "4", brand: "دودھ پاك" }
+                ]
+            },
+            fa: {
+                dir: "rtl",
+                app_title: "لیست خرید سودا",
+                lang_select: "زبان:",
+                item_name: "نام کالا",
+                qty: "مقدار",
+                req_brand: "برند درخواستی",
+                purch_brand: "برند خریداری شده",
+                availability: "موجودیت",
+                price: "قیمت",
+                notes: "یادداشت",
+                btn_save: "ذخیره لست خرید",
+                btn_receipt: "پیوست رسید خرید",
+                btn_complete: "تکمیل و ارسال به مادر",
+                available: "موجود",
+                not_available: "ناموجود",
+                total_bill: "مجموع کل",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "افغانی",
+                toast_saved: "لیست با موفقیت ذخیره شد!",
+                toast_attached: "%n رسید اضافه گردید!",
+                receipt_title: "رسیدهای پیوست شده",
+                dummy_items: [
+                    { name: "روغن مایع (5 لیتر)", qty: "1", brand: "بهار" },
+                    { name: "برنج سیله (5 کیلو)", qty: "1", brand: "مهدی" },
+                    { name: "بوره/شکر (2 کیلو)", qty: "1", brand: "وطنی" },
+                    { name: "چای سیاه (950 گرام)", qty: "1", brand: "امید" },
+                    { name: "شیر تازه (1 لیتر)", qty: "4", brand: "سحر" }
+                ]
+            },
+            uz: {
+                dir: "rtl",
+                app_title: "Xaridlar ro'yxati",
+                lang_select: "Til / زبان:",
+                item_name: "Mahsulot nomi",
+                qty: "Soni",
+                req_brand: "Tanlangan Brend",
+                purch_brand: "Olingan Brend",
+                availability: "Bormi/Yo'q",
+                price: "Narxi",
+                notes: "Eslatma",
+                btn_save: "Saqlab qo'yish",
+                btn_receipt: "Rasm/Kvitansiya",
+                btn_complete: "Tugatish va Onamga jo'natish",
+                available: "Bor",
+                not_available: "Yo'q",
+                total_bill: "Jami hisob",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "S'om",
+                toast_saved: "Ro'yxat saqlandi!",
+                toast_attached: "%n rasm muvaffaqiyatli qo'shildi!",
+                receipt_title: "Kvitansiyalar",
+                dummy_items: [
+                    { name: "O'simlik yog'i (5L)", qty: "1", brand: "Moya" },
+                    { name: "Guruch (5kg)", qty: "1", brand: "Alanga" },
+                    { name: "Shakar (2kg)", qty: "1", brand: "Local" },
+                    { name: "Choy (950g)", qty: "1", brand: "Lipton" },
+                    { name: "Sut (1L)", qty: "4", brand: "Nestle" }
+                ]
+            },
+            mr: {
+                dir: "ltr",
+                app_title: "किराणा मालाची यादी",
+                lang_select: "भाषा:",
+                item_name: "वस्तूचे नाव",
+                qty: "प्रमाण",
+                req_brand: "हवा असलेला ब्रँड",
+                purch_brand: "खरेदी केलेला ब्रँड",
+                availability: "उपलब्धता",
+                price: "किंमत",
+                notes: "टीप",
+                btn_save: "यादी जतन करा",
+                btn_receipt: "पावती जोडा",
+                btn_complete: "पूर्ण करा आणि आईला पाठवा",
+                available: "उपलब्ध",
+                not_available: "नाही",
+                total_bill: "एकूण बिल",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "रुपये",
+                toast_saved: "यादी जतन केली गेली आहे!",
+                toast_attached: "%n पावती जोडली गेली!",
+                receipt_title: "जोडलेल्या पावत्या",
+                dummy_items: [
+                    { name: "गोडेतेल (५ ली.)", qty: "१", brand: "फॉर्च्युन" },
+                    { name: "बासमती तांदूळ (५ किलो)", qty: "१", brand: "दावत" },
+                    { name: "साखर (२ किलो)", qty: "१", brand: "स्थानिक" },
+                    { name: "चहा पावडर (९५० ग्रॅम)", qty: "१", brand: "सोसायटी" },
+                    { name: "दूध (१ ली.)", qty: "४", brand: "चितळे" }
+                ]
+            },
+            te: {
+                dir: "ltr",
+                app_title: "కిరాణా సరుకుల జాబితా",
+                lang_select: "భాష:",
+                item_name: "సరుకు పేరు",
+                qty: "పరిమాణం",
+                req_brand: "కోరిన బ్రాండ్",
+                purch_brand: "కొన్న బ్రాండ్",
+                availability: "సరుకు నిల్వ",
+                price: "ధర",
+                notes: "గమనికలు",
+                btn_save: "లిస్ట్ దాచండి",
+                btn_receipt: "రశీదు జతచేయి",
+                btn_complete: "పూర్తి చేసి అమ్మకు పంపు",
+                available: "ఉంది",
+                not_available: "లేదు",
+                total_bill: "మొత్తం బిల్లు",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "రూ.",
+                toast_saved: "జాబితా భద్రపరచబడింది!",
+                toast_attached: "%n రశీదులు జతచేయబడ్డాయి!",
+                receipt_title: "జతచేసిన రశీదులు",
+                dummy_items: [
+                    { name: "వంట నూనె (5 లీటర్లు)", qty: "1", brand: "ఫ్రీడమ్" },
+                    { name: "బాస్మతి బియ్యం (5 కేజీలు)", qty: "1", brand: "దావత్" },
+                    { name: "చక్కెర (2 కేజీలు)", qty: "1", brand: "లోకల్" },
+                    { name: "టీ పొడి (950 గ్రాములు)", qty: "1", brand: "రెడ్ లేబుల్" },
+                    { name: "పాలు (1 లీటర్)", qty: "4", brand: "హెరిటేజ్" }
+                ]
+            },
+            ta: {
+                dir: "ltr",
+                app_title: "மளிகைப் பொருட்கள் பட்டியல்",
+                lang_select: "மொழி:",
+                item_name: "பொருள் பெயர்",
+                qty: "அளவு",
+                req_brand: "கேட்கப்பட்ட பிராண்ட்",
+                purch_brand: "வாங்கிய பிராண்ட்",
+                availability: "இருப்பு நிலை",
+                price: "விலை",
+                notes: "குறிப்புகள்",
+                btn_save: "பட்டியலைச் சேமி",
+                btn_receipt: "ரசீது இணைக்கவும்",
+                btn_complete: "முடிந்தது மாமிக்கு அனுப்பு",
+                available: "உள்ளது",
+                not_available: "இல்லை",
+                total_bill: "மொத்த தொகை",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "ரூபாய்",
+                toast_saved: "பட்டியல் சேமிக்கப்பட்டது!",
+                toast_attached: "%n ரசீதுகள் இணைக்கப்பட்டன!",
+                receipt_title: "இணைக்கப்பட்ட ரசீதுகள்",
+                dummy_items: [
+                    { name: "சமையல் எண்ணெய் (5 லிட்டர்)", qty: "1", brand: "கோல்ட் வின்னர்" },
+                    { name: "பாசுமதி அரிசி (5 கிலோ)", qty: "1", brand: "இந்தியா கேட்" },
+                    { name: "சர்க்கரை (2 கிலோ)", qty: "1", brand: "உள்ளூர்" },
+                    { name: "தேயிலை தூள் (950 கிராம்)", qty: "1", brand: "த்ரீ ரோசஸ்" },
+                    { name: "பால் (1 லிட்டர்)", qty: "4", brand: "ஆவின்" }
+                ]
+            },
+            gu: {
+                dir: "ltr",
+                app_title: "કરિયાણાની યાદી",
+                lang_select: "ભાષા:",
+                item_name: "વસ્તુનું નામ",
+                qty: "માત્રા",
+                req_brand: "માગેલ બ્રાન્ડ",
+                purch_brand: "ખરીદેલ બ્રાન્ડ",
+                availability: "ઉપલબ્ધતા",
+                price: "કિંમત",
+                notes: "નોંધ",
+                btn_save: "યાદી સાચવો",
+                btn_receipt: "બિલ જોડો",
+                btn_complete: "પૂર્ણ કરી મમ્મીને મોકલો",
+                available: "ઉપલબ્ધ",
+                not_available: "ઉપલબ્ધ નથી",
+                total_bill: "કુલ બિલ",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "રૂ.",
+                toast_saved: "કરિયાણા પત્રક સાચવેલ છે!",
+                toast_attached: "%n બિલો જોડાયા છે!",
+                receipt_title: "જોડેલ બિલો",
+                dummy_items: [
+                    { name: "તેલ (5 લી.)", qty: "1", brand: "તિરુપતિ" },
+                    { name: "બાસમતી ચોખા (5 કિલો)", qty: "1", brand: "દાવત" },
+                    { name: "ખાંડ (2 કિલો)", qty: "1", brand: "લોકલ" },
+                    { name: "ચા (950 ગ્રામ)", qty: "1", brand: "વાઘ બકરી" },
+                    { name: "દૂધ (1 લી.)", qty: "4", brand: "અમૂલ" }
+                ]
+            },
+            kn: {
+                dir: "ltr",
+                app_title: "ದಿನಸಿ ಪಟ್ಟಿ",
+                lang_select: "ಭಾಷೆ:",
+                item_name: "ವಸ್ತುವಿನ ಹೆಸರು",
+                qty: "ಪ್ರಮಾಣ",
+                req_brand: "ಕೋರಿದ ಬ್ರಾಂಡ್",
+                purch_brand: "ಖರೀದಿಸಿದ ಬ್ರಾಂಡ್",
+                availability: "ಲಭ್ಯತೆ",
+                price: "ಬೆಲೆ",
+                notes: "ಟಿಪ್ಪಣಿಗಳು",
+                btn_save: "ಪಟ್ಟಿಯನ್ನು ಉಳಿಸಿ",
+                btn_receipt: "ರಶೀದಿ ಲಗತ್ತಿಸಿ",
+                btn_complete: "ಮುಗಿಸಿ ಅಮ್ಮನಿಗೆ ಕಳುಹಿಸಿ",
+                available: "ಲಭ್ಯವಿದೆ",
+                not_available: "ಲಭ್ಯವಿಲ್ಲ",
+                total_bill: "ಒಟ್ಟು ಬಿಲ್",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "ರೂ.",
+                toast_saved: "ದಿನಸಿ ಪಟ್ಟಿ ಉಳಿಸಲಾಗಿದೆ!",
+                toast_attached: "%n ರಶೀದಿ ಲಗತ್ತಿಸಲಾಗಿದೆ!",
+                receipt_title: "ಲಗತ್ತಿಸಲಾದ ರಶೀದಿಗಳು",
+                dummy_items: [
+                    { name: "ಅಡುಗೆ ಎಣ್ಣೆ (5L)", qty: "1", brand: "ಫಾರ್ಚೂನ್" },
+                    { name: "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ (5kg)", qty: "1", brand: "ದಾಹತ್" },
+                    { name: "ಸಕ್ಕರೆ (2kg)", qty: "1", brand: "ಸ್ಥಳೀಯ" },
+                    { name: "ಟೀ ಪುಡಿ (950g)", qty: "1", brand: "ತಾಜ್ ಮಹಲ್" },
+                    { name: "ಹಾಲು (1L)", qty: "4", brand: "ನಂದಿನಿ" }
+                ]
+            },
+            ml: {
+                dir: "ltr",
+                app_title: "പലചരക്ക് സാധനങ്ങൾ",
+                lang_select: "ഭാഷ:",
+                item_name: "സാധനത്തിന്റെ പേര്",
+                qty: "അളവ്",
+                req_brand: "ആവശ്യപ്പെട്ട ബ്രാൻഡ്",
+                purch_brand: "വാങ്ങിയ ബ്രാൻഡ്",
+                availability: "ലഭ്യത",
+                price: "വില",
+                notes: "കുറിപ്പുകൾ",
+                btn_save: "പട്ടിക സൂക്ഷിക്കുക",
+                btn_receipt: "രസീത് ചേർക്കുക",
+                btn_complete: "പൂർത്തിയാക്കി അമ്മയ്ക്ക് അയക്കുക",
+                available: "ലഭ്യമാണ്",
+                not_available: "ലഭ്യമല്ല",
+                total_bill: "ആകെ തുക",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "രൂപ",
+                toast_saved: "സാധനപ്പട്ടിക സൂക്ഷിച്ചിരിക്കുന്നു!",
+                toast_attached: "%n രസീതുകൾ ചേർത്തു!",
+                receipt_title: "ചേർത്ത രസീതുകൾ",
+                dummy_items: [
+                    { name: "വെളിച്ചെണ്ണ (5 ലിറ്റർ)", qty: "1", brand: "കേര" },
+                    { name: "ബാസ്മതി അരി (5 കി.ഗ്രാം)", qty: "1", brand: "ഡബിൾ ഹോഴ്സ്" },
+                    { name: "പഞ്ചസാര (2 കി.ഗ്രാം)", qty: "1", brand: "ലോക്കൽ" },
+                    { name: "ചായപ്പൊടി (950 ഗ്രാം)", qty: "1", brand: "കണ്ണൻ ദേവൻ" },
+                    { name: "പാൽ (1 ലിറ്റർ)", qty: "4", brand: "മിൽമ" }
+                ]
+            },
+            or: {
+                dir: "ltr",
+                app_title: "ରାସନ ତାଲିକା",
+                lang_select: "ଭାଷା:",
+                item_name: "ସାମଗ୍ରୀର ନାମ",
+                qty: "ପରିମାଣ",
+                req_brand: "ମାଗିଥିବା ବ୍ରାଣ୍ଡ୍",
+                purch_brand: "କିଣିଥିବା ବ੍ਰାଣ୍ଡ୍",
+                availability: "ଉପଲବ୍ଧତା",
+                price: "ମୂଲ୍ୟ",
+                notes: "ଟିପ୍ପଣୀ",
+                btn_save: "ତାଲିକା ରଖନ୍ତୁ",
+                btn_receipt: "ରସିଦ ଯୋଡନ୍ତୁ",
+                btn_complete: "ସାରି ବୋଉକୁ ପଠାନ୍ତୁ",
+                available: "ମିଳୁଛି",
+                not_available: "ନାହିଁ",
+                total_bill: "ସମୁଦାୟ ବିଲ୍",
+                lbl_ad: "ADVERTISEMENT_SPACE_HOLDER",
+                currency: "ଟଙ୍କା",
+                toast_saved: "ରାସନ ତାଲିକା ସୁରକ୍ଷିତ ହେଲା!",
+                toast_attached: "%n ରସିଦ ଯୋଡାଗଲା!",
+                receipt_title: "ଜଡିତ ରସିଦ ସମୂହ",
+                dummy_items: [
+                    { name: "ରନ୍ଧନ ତେଲ (୫L)", qty: "୧", brand: "ଫରଚ୍ୟୁନ୍" },
+                    { name: "ବାସୁମତୀ ଚାଉଳ (୫kg)", qty: "୧", brand: "ଲାଲକିଲ୍ଲା" },
+                    { name: "ଚିନି (୨kg)", qty: "୧", brand: "ସ୍ଥାନୀୟ" },
+                    { name: "ଚା ପତ୍ର (୯୫୦g)", qty: "୧", brand: "ଟାଟା" },
+                    { name: "କ୍ଷୀର (୧L)", qty: "୪", brand: "ଓମଫେଡ୍" }
+                ]
+            }
+        };
+
+        // Core Frontend Reactive State variables
+        let currentLanguage = "en";
+        let activeItems = [];
+        let base64Receipts = [];
+
+        // Dynamic URL parser engine for ?list=BASE64
+        function loadParametersAndInitialize() {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const encodedList = urlParams.get('list');
+
+                if (encodedList) {
+                    const decodedText = atob(encodedList);
+                    // Safe UTF-8 decoding method
+                    const sanitizedText = decodeURIComponent(escape(decodedText));
+                    const parsedList = JSON.parse(sanitizedText);
+
+                    if (Array.isArray(parsedList) && parsedList.length > 0) {
+                        activeItems = parsedList.map((item, index) => ({
+                            id: index,
+                            name: item.name || `Item ${index + 1}`,
+                            qty: item.qty || "1",
+                            req_brand: item.brand || item.req_brand || "-",
+                            purch_brand: item.purch_brand || "",
+                            available: item.available !== undefined ? item.available : true,
+                            price: item.price !== undefined ? parseFloat(item.price) : 0,
+                            notes: item.notes || ""
+                        }));
+                        showToast("Loaded from URL Parameter");
+                        renderListTable();
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.error("Failed to parse 'list' parameter data. Falling back to local storage or dummy state.", e);
+            }
+
+            // Fallback Level 2: Try to retrieve local storage progress
+            try {
+                const savedProgress = localStorage.getItem('grocery_progress_data_v1');
+                if (savedProgress) {
+                    activeItems = JSON.parse(savedProgress);
+                    renderListTable();
+                    return;
+                }
+            } catch(lsErr) {
+                console.error("Local storage progress retrieval failed", lsErr);
+            }
+
+            // Fallback Level 3: Localized fallback dummy payload data
+            loadLanguageFallbackData(currentLanguage);
+        }
+
+        // Dynamically load fallback list data from localization bundle
+        function loadLanguageFallbackData(lang) {
+            const listBundle = locales[lang] || locales.en;
+            activeItems = listBundle.dummy_items.map((item, idx) => ({
+                id: idx,
+                name: item.name,
+                qty: item.qty,
+                req_brand: item.brand,
+                purch_brand: "",
+                available: true,
+                price: 0,
+                notes: ""
+            }));
+            renderListTable();
+        }
+
+        // Table renderer mapping inputs reactivity and rules
+        function renderListTable() {
+            const container = document.getElementById("shopping-list-rows");
+            container.innerHTML = "";
+            const t = locales[currentLanguage] || locales.en;
+
+            activeItems.forEach((item) => {
+                const row = document.createElement("tr");
+
+                // Availability columns checks status
+                const availableChecked = item.available === true ? "checked" : "";
+                const notAvailableChecked = item.available === false ? "checked" : "";
+
+                row.innerHTML = `
+                    <td style="font-size: 1.15rem;">${item.name}</td>
+                    <td style="text-align: center; font-size: 1.15rem;">${item.qty}</td>
+                    <td style="font-size: 1.15rem;">${item.req_brand}</td>
+                    <td>
+                        <input type="text" value="${item.purch_brand}" 
+                               class="purchased-brand-input" 
+                               oninput="updateItemField(${item.id}, 'purch_brand', this.value)" 
+                               placeholder="${t.purch_brand}..." />
+                    </td>
+                    <td>
+                        <div class="availability-group">
+                            <label class="radio-container">${t.available}
+                                <input type="radio" name="avail-${item.id}" value="yes" ${availableChecked} 
+                                       onclick="updateAvailability(${item.id}, true)">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-container">${t.not_available}
+                                <input type="radio" name="avail-${item.id}" value="no" ${notAvailableChecked} 
+                                       onclick="updateAvailability(${item.id}, false)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="price-field-container">
+                            <span class="price-currency">${t.currency}</span>
+                            <input type="number" value="${item.price}" 
+                                   class="price-input" 
+                                   min="0" step="any"
+                                   id="price-input-${item.id}"
+                                   ${item.available ? "" : "disabled"} 
+                                   oninput="updateItemField(${item.id}, 'price', this.value)">
+                        </div>
+                    </td>
+                    <td>
+                        <textarea placeholder="${t.notes}..." 
+                                  oninput="updateItemField(${item.id}, 'notes', this.value)">${item.notes}</textarea>
+                    </td>
+                `;
+                container.appendChild(row);
+            });
+
+            recalculateTotal();
+        }
+
+        // On input value update handlers
+        function updateItemField(id, field, val) {
+            const item = activeItems.find(x => x.id === id);
+            if (item) {
+                if (field === 'price') {
+                    item.price = parseFloat(val) || 0;
+                    recalculateTotal();
+                } else {
+                    item[field] = val;
+                }
+            }
+        }
+
+        // Toggle state triggers
+        function updateAvailability(id, isAvailable) {
+            const item = activeItems.find(x => x.id === id);
+            if (item) {
+                item.available = isAvailable;
+                const input = document.getElementById(`price-input-${id}`);
+                if (input) {
+                    if (isAvailable) {
+                        input.removeAttribute("disabled");
+                    } else {
+                        input.setAttribute("disabled", "true");
+                        // Clear out value on disabled
+                        item.price = 0;
+                        input.value = 0;
+                        recalculateTotal();
+                    }
+                }
+            }
+        }
+
+        // Grand Total calculator engine
+        function recalculateTotal() {
+            let total = 0;
+            activeItems.forEach(item => {
+                if (item.available) {
+                    total += parseFloat(item.price) || 0;
+                }
+            });
+            document.getElementById("bill-grand-total").innerText = total.toLocaleString();
+        }
+
+        // Translate the static headers, buttons and form labels dynamically
+        function switchLanguage(langKey) {
+            currentLanguage = langKey;
+            const t = locales[langKey] || locales.en;
+
+            // Update DOM layout text direction for the body node
+            document.body.setAttribute("dir", t.dir);
+
+            // Translate Static Elements text
+            document.getElementById("lbl-app-title").innerText = "Grocery List";
+            document.getElementById("lbl-lang-select").innerText = t.lang_select;
+            document.getElementById("th-item-name").innerText = t.item_name;
+            document.getElementById("th-qty").innerText = t.qty;
+            document.getElementById("th-req-brand").innerText = t.req_brand;
+            document.getElementById("th-purch-brand").innerText = t.purch_brand;
+            document.getElementById("th-availability").innerText = t.availability;
+            document.getElementById("th-price").innerText = t.price;
+            document.getElementById("th-notes").innerText = t.notes;
+            document.getElementById("lbl-total-bill").innerText = t.total_bill;
+            document.getElementById("computed-currency").innerText = t.currency;
+            document.getElementById("lbl-btn-save").innerText = t.btn_save;
+            document.getElementById("lbl-btn-receipt").innerText = t.btn_receipt;
+            document.getElementById("lbl-btn-complete").innerText = t.btn_complete;
+            document.getElementById("lbl-ad-space").innerText = t.lbl_ad;
+            document.getElementById("lbl-receipt-preview").innerText = t.receipt_title;
+
+            // Retain values but update local dummy texts if current list is unedited placeholder
+            // To be safe and avoid erasing custom grocery inputs, only swap items if local inputs are clean
+            const isUnmodified = activeItems.every(x => !x.purch_brand && x.price === 0 && !x.notes && x.available === true);
+            if (isUnmodified && !window.location.search.includes('list')) {
+                loadLanguageFallbackData(langKey);
+            } else {
+                renderListTable();
+            }
+        }
+
+        // Toast feedback presentation layer
+        function showToast(msg) {
+            const toast = document.getElementById("toast-message");
+            toast.innerText = msg;
+            toast.classList.add("show");
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        // Save list payload states to client's local storage
+        function saveListToLocal() {
+            try {
+                localStorage.setItem('grocery_progress_data_v1', JSON.stringify(activeItems));
+                const t = locales[currentLanguage] || locales.en;
+                showToast(t.toast_saved);
+            } catch(e) {
+                console.error("Local storage writing error", e);
+                showToast("Save Failed!");
+            }
+        }
+
+        // Capture multiple uploaded receipt files and convert to Base64 strings in the payload state
+        function handleReceiptUpload(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            const t = locales[currentLanguage] || locales.en;
+            const previewContainer = document.getElementById("thumbnail-preview-container");
+            const galleryPane = document.getElementById("receipt-gallery");
+
+            let processedCount = 0;
+            const targetCount = files.length;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const base64Str = e.target.result;
+                    base64Receipts.push(base64Str);
+
+                    // Add visible preview thumbnails
+                    const img = document.createElement("img");
+                    img.src = base64Str;
+                    img.className = "receipt-thumbnail";
+                    img.alt = "Attached receipt preview";
+                    previewContainer.appendChild(img);
+
+                    processedCount++;
+                    if (processedCount === targetCount) {
+                        galleryPane.classList.add("visible");
+                        const feedbackMsg = t.toast_attached.replace("%n", targetCount);
+                        showToast(feedbackMsg);
+                    }
+                };
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Main action button target: COMPLETE SHOPPING & SEND TO MOM
+        // Encodes values to url safe strings and builds sharing API intent redirecting to Mom
+        function completeShoppingAndSend() {
+            const t = locales[currentLanguage] || locales.en;
+            
+            // 1. Build a beautifully clear visual summary message to Mom
+            let totalAmount = 0;
+            let summaryText = `🛒 *[GROCERY LIST SUMMARY]*\n`;
+            summaryText += `========================\n`;
+
+            activeItems.forEach(item => {
+                if (item.available) {
+                    const priceVal = parseFloat(item.price) || 0;
+                    totalAmount += priceVal;
+                    const brandText = item.purch_brand ? `(${item.purch_brand})` : '';
+                    const noteText = item.notes ? ` [${item.notes}]` : '';
+                    summaryText += `✅ *${item.name}* (x${item.qty}) ${brandText}: ${t.currency} ${priceVal}${noteText}\n`;
+                } else {
+                    summaryText += `❌ *${item.name}* (x${item.qty}) - ${t.not_available}\n`;
+                }
+            });
+
+            summaryText += `========================\n`;
+            summaryText += `💵 *${t.total_bill}: ${t.currency} ${totalAmount.toLocaleString()}*\n`;
+            
+            if (base64Receipts.length > 0) {
+                summaryText += `📸 *Receipts Attached:* ${base64Receipts.length}\n`;
+            }
+
+            // 2. State payload compression (to let page recreate progress from link)
+            try {
+                const miniState = activeItems.map(x => ({
+                    name: x.name,
+                    qty: x.qty,
+                    brand: x.req_brand,
+                    purch_brand: x.purch_brand,
+                    available: x.available,
+                    price: x.price,
+                    notes: x.notes
+                }));
+
+                // Safe base64 conversion
+                const contentStr = encodeURIComponent(JSON.stringify(miniState));
+                const b64Payload = btoa(unescape(contentStr));
+
+                // Formulate target return link for Mom to inspect the browser state
+                const inspectURL = `${window.location.origin}${window.location.pathname}?list=${b64Payload}`;
+                summaryText += `\n🔗 *Tap to view and edit list online:*\n${inspectURL}`;
+            } catch (err) {
+                console.error("Payload compression failed, compiling textual representation instead", err);
+            }
+
+            // Save to local storage automatically so they don't lose data
+            saveListToLocal();
+
+            // 3. Fire WhatsApp sharing API Intent using the global send query endpoint
+            const whatsappAPI = `https://api.whatsapp.com/send?text=${encodeURIComponent(summaryText)}`;
+            window.location.href = whatsappAPI;
+        }
+
+        // Switch to theme (pure monochrome contrast pairs)
+        function toggleTheme() {
+            const body = document.body;
+            const toggler = document.getElementById("theme-toggler");
+            const currentTheme = body.getAttribute("data-theme");
+
+            if (currentTheme === "light") {
+                body.setAttribute("data-theme", "dark");
+                toggler.innerText = "🌙";
+            } else {
+                body.setAttribute("data-theme", "light");
+                toggler.innerText = "☀️";
+            }
+        }
+
+        // Window startup initialization
+        window.addEventListener("DOMContentLoaded", () => {
+            loadParametersAndInitialize();
+        });
+    </script>
+</body>
+</html>

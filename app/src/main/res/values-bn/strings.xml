@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">বাজারের তালিকা</string>
+    <string name="app_header">বাজারের তালিকা</string>
+    <string name="label_notepad_title">মায়ের রান্নাঘর নোটপ্যাড</string>
+    <string name="label_default_shopper">%1$s: ডিফল্ট ক্রেতা</string>
+    
+    <string name="btn_start_shopping">বাজার শুরু করুন</string>
+    <string name="start_shopping_subtitle">মায়ের জন্য নতুন রান্নার তালিকা তৈরি করুন</string>
+    
+    <string name="btn_repeat_last">শেষ তালিকা পুনরায়</string>
+    <string name="repeat_last_subtitle">পূর্ববর্তী বাজারের তালিকা পুনরায় তৈরি করুন</string>
+    
+    <string name="missed_last_title">বাদ পড়া বাজারের তালিকা</string>
+    <string name="missed_last_subtitle">গতবারে যে জিনিসগুলো পাওয়া যায়নি</string>
+    
+    <string name="btn_add_shopper">ক্রেতার প্রোফাইল যোগ করুন</string>
+    <string name="sub_add_shopper">নাতি, সাহায্যকারী বা নতুন ক্রেতা যোগ করুন</string>
+    
+    <string name="label_import_section">পুরোনো বিল ইমপোর্ট করুন</string>
+    <string name="desc_import_section">মা, মূল্য, প্রাপ্যতা এবং রসিদ স্বয়ংক্রিয়ভাবে সিঙ্ক করতে হোয়াটসঅ্যাপে ক্রেতার কাছ থেকে পাওয়া বার্তাটি এখানে পেস্ট করুন।</string>
+    <string name="input_hint_import">ক্রেতার হোয়াটসঅ্যাপ বার্তা এখানে পেস্ট করুন...</string>
+    <string name="btn_import_proceed">পেস্ট করুন</string>
+    
+    <string name="dialog_title_add_shopper">নতুন ক্রেতার প্রোফাইল যোগ করুন</string>
+    <string name="dialog_label_name">নাম (যেমন আহমেদ, মা)</string>
+    <string name="dialog_label_relation">সম্পর্ক (যেমন ছেলে, বোন)</string>
+    <string name="dialog_label_phone">হোয়াটসঅ্যাপ ফোন নম্বর</string>
+    <string name="dialog_btn_cancel">বাতিল</string>
+    <string name="dialog_btn_save">সংরক্ষণ করুন</string>
+    <string name="theme_dark">ডার্ক 🌙</string>
+    <string name="theme_light">লাইট ☀️</string>
+</resources>

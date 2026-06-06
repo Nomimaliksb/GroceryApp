@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">سودي جي فھرست</string>
+    <string name="app_header">سودي جي فھرست</string>
+    <string name="label_notepad_title">امڙ جي بورچيخاني نوٽپيڊ</string>
+    <string name="label_default_shopper">%1$s: اصلي خريدار</string>
+    
+    <string name="btn_start_shopping">خريداري شروع ڪريو</string>
+    <string name="start_shopping_subtitle">امڙ جي بورچيخاني لاءِ نئون سودو تيار ڪريو</string>
+    
+    <string name="btn_repeat_last">آخري فھرست دهرائيو</string>
+    <string name="repeat_last_subtitle">پراڻي سودي واري لسٽ کي دهرائيو</string>
+    
+    <string name="missed_last_title">پاتال سودو لسٽ ڪريو</string>
+    <string name="missed_last_subtitle">اهو سامان جيڪو گذريل ڀيري نه ملي سگهيو</string>
+    
+    <string name="btn_add_shopper">خريدار جو پروفائل شامل ڪريو</string>
+    <string name="sub_add_shopper">پوٽو، مددگار يا نئون خريدار شامل ڪريو</string>
+    
+    <string name="label_import_section">پراڻو بل امپورٽ ڪريو</string>
+    <string name="desc_import_section">ادي، واٽساپ تي مليل مڪمل بل جو ميسيج هتي پيسٽ ڪريو ته جيئن قيمتون، دستيابي ۽ رسيدون پاڻمرادو سنڪ ٿي وڃن.</string>
+    <string name="input_hint_import">واٽساپ ميسيج هتي پيسٽ ڪريو...</string>
+    <string name="btn_import_proceed">پيسٽ ڪريو</string>
+    
+    <string name="dialog_title_add_shopper">نئون خريدار پروفائل شامل ڪريو</string>
+    <string name="dialog_label_name">نالو (مثال طور احمد، امڙ)</string>
+    <string name="dialog_label_relation">رشتو (مثال طور پٽ، ڀينر)</string>
+    <string name="dialog_label_phone">واٽساپ نمبر</string>
+    <string name="dialog_btn_cancel">رد ڪريو</string>
+    <string name="dialog_btn_save">محفوظ ڪريو</string>
+    <string name="theme_dark">ڊارڪ 🌙</string>
+    <string name="theme_light">لائيٽ ☀️</string>
+</resources>

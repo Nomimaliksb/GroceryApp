@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">ਗਰਾਸਰੀ ਲਿਸਟ</string>
+    <string name="app_header">ਗਰਾਸਰੀ ਲਿਸਟ</string>
+    <string name="label_notepad_title">ਮਾਂ ਦਾ ਰਸੋਈ ਨੋਟਪੈਡ</string>
+    <string name="label_default_shopper">%1$s: ਡਿਫਾਲਟ ਖਰੀਦਦਾਰ</string>
+    
+    <string name="btn_start_shopping">ਖਰੀਦਦਾਰੀ ਸ਼ੁਰੂ ਕਰੋ</string>
+    <string name="start_shopping_subtitle">ਮਾਂ ਲਈ ਨਵੀਂ ਰਸੋਈ ਸੂਚੀ ਬਣਾਓ</string>
+    
+    <string name="btn_repeat_last">ਪਿਛਲੀ ਸੂਚੀ ਦੁਹਰਾਓ</string>
+    <string name="repeat_last_subtitle">ਪਿਛਲੀ ਕਰਿਆਨੇ ਦੀ ਸੂਚੀ ਦੁਹਰਾਓ</string>
+    
+    <string name="missed_last_title">ਛੁੱਟਿਆ ਹੋਇਆ ਸਾਮਾਨ ਲਿਸਟ ਕਰੋ</string>
+    <string name="missed_last_subtitle">ਉਹ ਸਾਮਾਨ ਜੋ ਪਿਛਲੀ ਵਾਰ ਨਹੀਂ ਮਿਲਿਆ</string>
+    
+    <string name="btn_add_shopper">ਖਰੀਦਦਾਰ ਪ੍ਰੋਫਾਈਲ ਜੋੜੋ</string>
+    <string name="sub_add_shopper">ਪੋਤਾ, ਮਦਦਗਾਰ ਜਾਂ ਨਵਾਂ ਖਰੀਦਦਾਰ ਸ਼ਾਮਲ ਕਰੋ</string>
+    
+    <string name="label_import_section">ਪੁਰਾਣਾ ਬਿੱਲ ਇੰਪੋਰਟ ਕਰੋ</string>
+    <string name="desc_import_section">ਮਾਂ, ਕੀਮਤਾਂ, ਮੌਜੂਦਗੀ ਅਤੇ ਰਸੀਦਾਂ ਨੂੰ ਆਪਣੇ ਆਪ ਸਿੰਕ ਕਰਨ ਲਈ ਵਟਸਐਪ \'ਤੇ ਖਰੀਦਦਾਰ ਤੋਂ ਮਿਲਿਆ ਸੁਨੇਹਾ ਇੱਥੇ ਪੇਸਟ ਕਰੋ।</string>
+    <string name="input_hint_import">ਖਰੀਦਦਾਰ ਦਾ ਵਟਸਐਪ ਸੁਨੇਹਾ ਇੱਥੇ ਪੇਸਟ ਕਰੋ...</string>
+    <string name="btn_import_proceed">ਪੇਸਟ ਕਰੋ</string>
+    
+    <string name="dialog_title_add_shopper">ਨਵਾਂ ਖਰੀਦਦਾਰ ਪ੍ਰੋਫਾਈਲ ਜੋੜੋ</string>
+    <string name="dialog_label_name">ਨਾਮ (ਜਿਵੇਂ ਕਿ ਅਹਿਮਦ, ਮਾਂ)</string>
+    <string name="dialog_label_relation">ਰਿਸ਼ਤਾ (ਜਿਵੇਂ ਕਿ ਪੁੱਤਰ, ਭੈਣ)</string>
+    <string name="dialog_label_phone">ਵਟਸਐਪ ਫ਼ੋਨ ਨੰਬਰ</string>
+    <string name="dialog_btn_cancel">ਰੱਦ ਕਰੋ</string>
+    <string name="dialog_btn_save">ਸੁਰੱਖਿਅਤ ਕਰੋ</string>
+    <string name="theme_dark">ਡਾਰਕ 🌙</string>
+    <string name="theme_light">ਲਾਈਟ ☀️</string>
+</resources>
