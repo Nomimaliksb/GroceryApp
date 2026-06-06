@@ -22,6 +22,10 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
 
+    # Fixes the missing GradleWrapperMain error
+    - name: Generate Missing Wrapper
+      run: gradle wrapper
+
     - name: Create stub .env file
       run: echo "GEMINI_API_KEY=dummy_key_for_building" > .env
 
